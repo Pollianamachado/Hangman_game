@@ -4,21 +4,51 @@ secret_words = ["limon", "plastic", "market", "wine", "cat", "frame", "purse", "
                 "salmon", "monday", "water", "place", "thing", "number", "mister", "sound", "children", "head", "kind", "country", "father", "picture", "night"
                 ]
 hangman = random.choice(secret_words).upper()
+
 print("Hangman Game:", len(hangman) * (" - "))
 print("             o")
 print("            -|-")
 print("            / \\")
 print(f"The secret word has {len(hangman)} letters. Try to win before the hangman is complete!")
+
 list = []
 attempt = []
 x = 0
+error_count = 0
+
 for letter in hangman:
     list.append(letter)
+
 hit_count = len(list)
-error_count = 0
+
 def end_game():
     print("Congratulations!!! The secret word is:")
     print("   ".join(list).upper()) 
+
+def guess_error():  
+
+    print("Wrong!")
+    print(f"{error_count} wrong answer(s)")
+    if error_count == 1:
+        print("Hangman: o")
+    if error_count == 2:
+        print("Hangman: o")
+        print("         |")
+    if error_count == 3:
+        print("Hangman: o")
+        print("         |-")
+    if error_count == 4:
+        print("Hangman: o")
+        print("        -|-")
+    if error_count == 5:
+        print("Hangman: o")
+        print("        -|-")
+        print("        /  ")
+    if error_count == 6:
+        print("Hangman: o")
+        print("        -|-")
+        print("        / \\")
+        print("GAME OVER!")
               
 while True:
     guess = str(input("Enter one letter: ")).upper()
@@ -91,27 +121,5 @@ while True:
         else:
             print(f"{hit_count} letter(s) left to complete the secret word")
     elif guess not in list:
-        print("Wrong!")
         error_count += 1
-        print(f"{error_count} wrong answer(s)")
-        if error_count == 1:
-            print("Hangman: o")
-        if error_count == 2:
-            print("Hangman: o")
-            print("         |")
-        if error_count == 3:
-            print("Hangman: o")
-            print("         |-")
-        if error_count == 4:
-            print("Hangman: o")
-            print("        -|-")
-        if error_count == 5:
-            print("Hangman: o")
-            print("        -|-")
-            print("        /  ")
-        if error_count == 6:
-            print("Hangman: o")
-            print("        -|-")
-            print("        / \\")
-            print("GAME OVER!")
-            break
+        guess_error()
