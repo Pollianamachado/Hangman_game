@@ -4,9 +4,9 @@ secret_words = ["way", "end", "air", "man", "boy", "cat", "own", "foot", "banana
                 "home", "head", "very", "just", "most", "where", "kind", "whom", "time", "apple" "often", "animal", "could", "write", "under", "while", "along", "between", 
                 "might", "found", "below", "always", "above", "often", "colonel", "mother", "limon", "earth", "woman", "thought", "market", "world", "salmon", "because",  
                 "frame", "water", "first" "story", "little" "night", "right" "light", "house", "school", "purse", "cloud", "answer", "olive", "mango", "large", "place", 
-                "great", "thing", "sound", "monday", "number", "almost", "ironic", "volcano", "transplant", "second", "before", "around", "should", "people" "mister", "father",
+                "great", "thing", "sound", "monday", "number", "almost", "ironic", "volcano", "transplant", "second", "before", "around", "should", "people", "mister", "father",
                 "muscle", "enought", "scream", "plastic", "together", "clothes", "desinterested", "uninterested", "enormous", "regardless", "protein", "without", "following", 
-                "nuclear", "another", "costume", "country", "promise", "picture", "healthy", "curtain", "microscopic", "literally", "whisper", "children", "throught", 
+                "nuclear", "another", "costume", "country", "original", "promise", "picture", "healthy", "curtain", "microscopic", "literally", "whisper", "children", "throught", 
                 "unabashed", "important", "something"
                 ]
 
@@ -21,7 +21,6 @@ print(f"The secret word has {len(hangman)} letters. Try to win before the hangma
 letters = {}
 letters_copy = {}
 wrong_answer = []
-x = 0
 error_count = 0
 index = 0
 
@@ -68,8 +67,7 @@ while True:
         print(f"Hangman Game already filled with '{guess}'. Try another letter")
     else:
         if guess in letters.values():
-          
-            keys = list(letters.keys())
+
             values = list(letters.values())
 
             for key, value in enumerate(values):
@@ -86,15 +84,20 @@ while True:
             end_game()
             break
         else:
-            if hit_count < len(letters):
+            if (hit_count < len(hangman)) and (guess in letters.values()):
                 print(f"{hit_count} letter(s) left to complete the secret word")
             
     if guess not in letters.values():
-        if guess in wrong_answer:
+        if len(guess) > 1:
+            if guess == "STOP":
+                break
+            if guess != "STOP":
+                print("Try one letter at time")
+        elif guess in wrong_answer: 
             print("You alreary tried this letter")
         else:
-            error_count += 1
-            wrong_answer.append(guess)
-            guess_error()
-            if error_count == 6:
+            error_count += 1 
+            wrong_answer.append(guess) 
+            guess_error() 
+            if error_count == 6: 
                 break
