@@ -11,23 +11,29 @@ print("            -|-")
 print("            / \\")
 print(f"The secret word has {len(hangman)} letters. Try to win before the hangman is complete!")
 
-list = []
-attempt = []
+letters = {}
+letters_copy = {}
+wrong_answer = []
 x = 0
 error_count = 0
+index = 0
 
 for letter in hangman:
     list.append(letter)
+while index < len(hangman):
+    value = hangman[index]
 
-hit_count = len(list)
+    letters_copy[index] = " _ "
+    index += 1
+
+hit_count = len(letters.values())
 
 def end_game():
     print("Congratulations!!! The secret word is:")
-    print("   ".join(list).upper()) 
+    print("   ".join(letters.values()).upper())  
 
 def guess_error():  
 
-    print("Wrong!")
     print(f"{error_count} wrong answer(s)")
     if error_count == 1:
         print("Hangman: o")
@@ -51,75 +57,36 @@ def guess_error():
         print("GAME OVER!")
               
 while True:
-    guess = str(input("Enter one letter: ")).upper()
-    if guess in attempt:
+    guess = str(input("Guess one letter: ")).upper()
+    if guess in letters_copy.values():
         print(f"Hangman Game already filled with '{guess}'. Try another letter")
-        continue
-    elif guess in list:
-        hit_count -= 1
-        attempt.append(guess)
-        if guess == list[0]:
-            if len(attempt) == len(list):
-                end_game()
-                break
-            else:
-                print(f"Position {list.index(guess) + 1} of the secret word")
-                print(guess, (len(list) - 1) * (" - "))
-                # print((attempt) - (set(list).difference(attempt)))
-        elif guess == list[1]:
-            if len(attempt) == len(list):
-                end_game()
-                break
-            else:
-                print(f"Position {list.index(guess) + 1} of the secret word")
-                print(f" -  {guess}", (len(list) - 2) * (" - "))
-        elif guess == list[2]:
-            if len(attempt) == len(list):
-                end_game()
-                break
-            else:
-                print(f"Position {list.index(guess) + 1} of the secret word")
-                print(" - ", " - ", guess, (len(list) - 3) * (" - "))
-        elif guess == list[3]:
-            if len(attempt) == len(list):
-                end_game()
-                break
-            else:
-                print(f"Position {list.index(guess) + 1} of the secret word")
-                print(" - ", " - ", " - ", guess, (len(list) - 4) * (" - "))
-        elif guess == list[4]:
-            if len(attempt) == len(list):
-                end_game()
-                break
-            else:
-                print(f"Position {list.index(guess) + 1} of the secret word")
-                print(" - ", " - "," - "," - ", guess, (len(list) - 5) * (" - "))
-        elif guess == list[5]:
-            if len(attempt) == len(list):
-                end_game()
-                break
-            else:
-                print(f"Position {list.index(guess) + 1} of the secret word")
-                print(" - ", " - "," - "," - "," - ", guess, (len(list) - 6) * (" - "))
-        elif guess == list[6]:
-            if len(attempt) == len(list):
-                end_game()
-                break
-            else:
-                print(f"Position {list.index(guess) + 1} of the secret word")
-                print(" - ", " - "," - "," - "," - "," - ", guess, (len(list) - 7) * (" - "))
-        elif guess == list[7]:
-            if len(attempt) == len(list):
-                end_game()
-                break
-            else:
-                print(f"Position {list.index(guess) + 1} of the secret word")
-                print(" - ", " - "," - "," - "," - ", guess, (len(list) - 3) * (" - "))
+    else:
+        if guess in letters.values():
+           
+            keys = list(letters.keys())
+            values = list(letters.values())
+                    
+            hit_count -= 1        
+            position = values.index(guess)
+            print(f"Position {position + 1} of the secret word")
+
+            letters_copy[position] = guess
+
+            if hit_count > 0:
+                output = list(letters_copy.values())
+                print(' '.join(output))
+
         if hit_count == 0:
             end_game()
             break
         else:
-            print(f"{hit_count} letter(s) left to complete the secret word")
-    elif guess not in list:
-        error_count += 1
-        guess_error()
+            if hit_count < len(letters):
+                print(f"{hit_count} letter(s) left to complete the secret word")
+            
+    if guess not in letters.values():
+        if guess in wrong_answer:
+            print("You alreary tried this letter")
+        else:
+            wrong_answer.append(guess)
+            error_count += 1
+            guess_error()
