@@ -1,8 +1,15 @@
 import random
-secret_words = ["limon", "plastic", "market", "wine", "cat", "frame", "purse", "cloud", "costume", "muscle", "earth", "woman", "promise", "answer", "olive", 
-                "healthy", "curtain", "scream", "whisper", "mango", "protein", "rice", "nuclear", "clothes", "world", "often", "love", "mother", "walk", "half",
-                "salmon", "monday", "water", "place", "thing", "number", "mister", "sound", "children", "head", "kind", "country", "father", "picture", "night"
+secret_words = ["way", "end", "air", "man", "boy", "cat", "own", "foot", "banana", "both", "rice", "come" "small", "side", "show", "land", "love", "part", "word", "walk", 
+                "line", "only", "work" "half", "year", "wine", "name", "life", "live", "help", "last", "left", "down", "next", "high", "find", "want", "much", "again",
+                "home", "head", "very", "just", "most", "where", "kind", "whom", "time", "apple" "often", "animal", "could", "write", "under", "while", "along", "between", 
+                "might", "found", "below", "always", "above", "often", "colonel", "mother", "limon", "earth", "woman", "thought", "market", "world", "salmon", "because",  
+                "frame", "water", "first" "story", "little" "night", "right" "light", "house", "school", "purse", "cloud", "answer", "olive", "mango", "large", "place", 
+                "great", "thing", "sound", "monday", "number", "almost", "ironic", "volcano", "transplant", "second", "before", "around", "should", "people" "mister", "father",
+                "muscle", "enought", "scream", "plastic", "together", "clothes", "desinterested", "uninterested", "enormous", "regardless", "protein", "without", "following", 
+                "nuclear", "another", "costume", "country", "promise", "picture", "healthy", "curtain", "microscopic", "literally", "whisper", "children", "throught", 
+                "unabashed", "important", "something"
                 ]
+
 hangman = random.choice(secret_words).upper()
 
 print("Hangman Game:", len(hangman) * (" - "))
@@ -18,10 +25,9 @@ x = 0
 error_count = 0
 index = 0
 
-for letter in hangman:
-    list.append(letter)
 while index < len(hangman):
     value = hangman[index]
+    letters[index] = value
 
     letters_copy[index] = " _ "
     index += 1
@@ -62,16 +68,16 @@ while True:
         print(f"Hangman Game already filled with '{guess}'. Try another letter")
     else:
         if guess in letters.values():
-           
+          
             keys = list(letters.keys())
             values = list(letters.values())
+
+            for key, value in enumerate(values):
+                if value == guess:
+                    letters_copy[key] = value
+                    hit_count -= 1 
+                    print(f"Position {key + 1} of the secret word")
                     
-            hit_count -= 1        
-            position = values.index(guess)
-            print(f"Position {position + 1} of the secret word")
-
-            letters_copy[position] = guess
-
             if hit_count > 0:
                 output = list(letters_copy.values())
                 print(' '.join(output))
@@ -87,6 +93,8 @@ while True:
         if guess in wrong_answer:
             print("You alreary tried this letter")
         else:
-            wrong_answer.append(guess)
             error_count += 1
+            wrong_answer.append(guess)
             guess_error()
+            if error_count == 6:
+                break
